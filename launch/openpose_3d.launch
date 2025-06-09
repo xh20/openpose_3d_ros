@@ -1,0 +1,10 @@
+
+
+<launch>
+
+  <include file="$(find openpose_ros)/launch/openpose_ros.launch">
+  </include>
+
+
+
+</launch>

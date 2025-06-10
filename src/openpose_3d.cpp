@@ -95,6 +95,9 @@ public:
 //                            Z_body.push_back(camera_height - body_c.transpose()*normal_vec);
 //                        }
 //                    // calculate all keypoints' depth
+//
+//
+		      Eigen::Vector3d pixel_vec(body_point_with_prob.x,body_point_with_prob.y,1);                                        
                       int x = int(body_point_with_prob.x);
                       int y = int(body_point_with_prob.y);
                       double Z = cv_ptrD->image.at<u_int16_t>(x,y)/1000.0; // unit M: meter

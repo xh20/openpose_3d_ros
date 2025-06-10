@@ -81,37 +81,37 @@ public:
                     openpose_ros_msgs::PointWithProb body_point_with_prob = human.body_key_points_with_prob.at(bodyPart);
                     double p = body_point_with_prob.prob;
                     if(p>0){
-                        if(bodyPart==0|| bodyPart==15||bodyPart==16||bodyPart==17||bodyPart==18){
-                            x_head.push_back(body_point_with_prob.x);
-                            y_head.push_back(body_point_with_prob.y);
-                        }
-                        else if(bodyPart!=19 && bodyPart!=20 && bodyPart!=21 && bodyPart!=22 && bodyPart!=23 && bodyPart!=24){
-
-                        }
-                        else{
-                            int Z_depth = cv_ptrD->image.at<u_int16_t>(body_point_with_prob.y,body_point_with_prob.x);;
-                            Eigen::Vector3d body_pixel(body_point_with_prob.x,body_point_with_prob.y,1);
-                            Eigen::Vector3d body_c = Z_depth*camera_matrix_inv*body_pixel;
-                            Z_body.push_back(camera_height - body_c.transpose()*normal_vec);
-                        }
+//                        if(bodyPart==0|| bodyPart==15||bodyPart==16||bodyPart==17||bodyPart==18){
+//                            x_head.push_back(body_point_with_prob.x);
+//                            y_head.push_back(body_point_with_prob.y);
+//                        }
+//                        else if(bodyPart!=19 && bodyPart!=20 && bodyPart!=21 && bodyPart!=22 && bodyPart!=23 && bodyPart!=24){
+//
+//                        }
+//                        else{
+//                            int Z_depth = cv_ptrD->image.at<u_int16_t>(body_point_with_prob.y,body_point_with_prob.x);;
+//                            Eigen::Vector3d body_pixel(body_point_with_prob.x,body_point_with_prob.y,1);
+//                            Eigen::Vector3d body_c = Z_depth*camera_matrix_inv*body_pixel;
+//                            Z_body.push_back(camera_height - body_c.transpose()*normal_vec);
+//                        }
 //                    // calculate all keypoints' depth
-//                    int x = int(body_point_with_prob.x);
-//                    int y = int(body_point_with_prob.y);
-//                    double Z = cv_ptrD->image.at<u_int16_t>(x,y)/1000.0; // unit M: meter
-//                    cv::Vec3d point_c = Z*OpenPoseDepth::camera_matrix*pixel_vec; // unit M
-//                    human.body_key_points_with_prob.at(bodyPart).x = point_c(0);
-//                    human.body_key_points_with_prob.at(bodyPart).y = point_c(1);
-//                    human.body_key_points_with_prob.at(bodyPart).z = Z; // unit M: meter
+                      int x = int(body_point_with_prob.x);
+                      int y = int(body_point_with_prob.y);
+                      double Z = cv_ptrD->image.at<u_int16_t>(x,y)/1000.0; // unit M: meter
+                      cv::Vec3d point_c = Z*OpenPoseDepth::camera_matrix*pixel_vec; // unit M
+                      human.body_key_points_with_prob.at(bodyPart).x = point_c(0);
+                      human.body_key_points_with_prob.at(bodyPart).y = point_c(1);
+                      human.body_key_points_with_prob.at(bodyPart).z = Z; // unit M: meter
                     }
                 }
-                double Z_body_min = *min_element(Z_body.begin(),Z_body.end());
-                double x_head_min = *min_element(x_head.begin(),x_head.end());
-                double x_head_max = *max_element(x_head.begin(),x_head.end());
-                double y_head_min = *min_element(y_head.begin(),y_head.end());
-                double y_head_max = *max_element(y_head.begin(),y_head.end());
-                int x_head_cen = (x_head_min + x_head_max) / 2;
-                int y_head_cen = (y_head_min + y_head_max) / 2;
-                int Z_head_cen = cv_ptrD->image.at<u_int16_t>(y_head_cen,x_head_cen);
+//                double Z_body_min = *min_element(Z_body.begin(),Z_body.end());
+//                double x_head_min = *min_element(x_head.begin(),x_head.end());
+//                double x_head_max = *max_element(x_head.begin(),x_head.end());
+//                double y_head_min = *min_element(y_head.begin(),y_head.end());
+//                double y_head_max = *max_element(y_head.begin(),y_head.end());
+//                int x_head_cen = (x_head_min + x_head_max) / 2;
+//                int y_head_cen = (y_head_min + y_head_max) / 2;
+//                int Z_head_cen = cv_ptrD->image.at<u_int16_t>(y_head_cen,x_head_cen);
                 //                cout<<"x_pixel_center: "<< x_head_cen << endl;
 //                cout<<"y_pixel_center: "<< y_head_cen << endl;
 //                cout<<"Z_center: "<< Z_head_cen << endl;
@@ -131,16 +131,16 @@ public:
 //                Z_avg = accumulate(z_vec.begin(), z_vec.end(), 0.0)/z_vec.size();
                 //                cout<< "Z_avg new: "<<Z_avg<<endl;
 
-                Eigen::Vector3d head_pixel(x_head_cen, y_head_cen ,1.0);
+//                Eigen::Vector3d head_pixel(x_head_cen, y_head_cen ,1.0);
 
-                Head_p = Z_head_cen*camera_matrix_inv*head_pixel; // point vector in camera coordinate, unit mm
+//                Head_p = Z_head_cen*camera_matrix_inv*head_pixel; // point vector in camera coordinate, unit mm
 
 //                cout<<"head position: \n"<< Head_p<<endl;
-                human.body_key_points_with_prob.at(23).x = Head_p(0);
-                human.body_key_points_with_prob.at(23).y = Head_p(1);
-                human.body_key_points_with_prob.at(23).z = Head_p(2);
+//                human.body_key_points_with_prob.at(23).x = Head_p(0);
+//                human.body_key_points_with_prob.at(23).y = Head_p(1);
+//                human.body_key_points_with_prob.at(23).z = Head_p(2);
                 human_list.at(person) = human;
-                head_height = camera_height - Head_p.transpose()*normal_vec;
+//                head_height = camera_height - Head_p.transpose()*normal_vec;
 //                if((Z_body_min<50 || head_height<50)){
 //                    if(velocity_abs>1000)
 //                        cout<<"Someone Fall Down"<<endl;

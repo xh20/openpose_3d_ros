@@ -96,14 +96,16 @@ public:
 //                        }
 //                    // calculate all keypoints' depth
 //
-//
 		      Eigen::Vector3d pixel_vec(body_point_with_prob.x,body_point_with_prob.y,1);                                        
                       int x = int(body_point_with_prob.x);
                       int y = int(body_point_with_prob.y);
-                      double Z = cv_ptrD->image.at<u_int16_t>(x,y)/1000.0; // unit M: meter
-                      cv::Vec3d point_c = Z*OpenPoseDepth::camera_matrix*pixel_vec; // unit M
-                      human.body_key_points_with_prob.at(bodyPart).x = point_c(0);
-                      human.body_key_points_with_prob.at(bodyPart).y = point_c(1);
+                      // double Z = cv_ptrD->image.at<u_int16_t>(y,x)/1000.0; // unit M: meter
+                      // cv::Vec3d point_c = Z*OpenPoseDepth::camera_matrix*pixel_vec; // unit M
+                      int Z_depth = cv_ptrD->image.at<u_int16_t>(y,x);;
+                      Eigen::Vector3d body_pixel(body_point_with_prob.x,body_point_with_prob.y,1);
+                      Eigen::Vector3d body_3d = Z_depth*camera_matrix_inv*body_pixel;
+                      human.body_key_points_with_prob.at(bodyPart).x = body_3d(0);
+                      human.body_key_points_with_prob.at(bodyPart).y = body_3d(1);
                       human.body_key_points_with_prob.at(bodyPart).z = Z; // unit M: meter
                     }
                 }

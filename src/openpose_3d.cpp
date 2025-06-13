@@ -106,7 +106,7 @@ public:
                       Eigen::Vector3d body_3d = Z_depth*camera_matrix_inv*body_pixel;
                       human.body_key_points_with_prob.at(bodyPart).x = body_3d(0);
                       human.body_key_points_with_prob.at(bodyPart).y = body_3d(1);
-                      human.body_key_points_with_prob.at(bodyPart).z = Z; // unit M: meter
+                      human.body_key_points_with_prob.at(bodyPart).z = Z_depth; // unit M: meter
                     }
                 }
 //                double Z_body_min = *min_element(Z_body.begin(),Z_body.end());
